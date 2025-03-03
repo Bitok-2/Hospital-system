@@ -20,6 +20,17 @@ def departments(request):
 def doctors(request):
     return render(request,'doctors.html')
 
+def show(request):
+    all = Appointment.objects.all()
+    return render(request,'show.html',{'all':all})
+
+def delete(request,id):
+   deletedappointment = Appointment.objects.get(id=id)
+   deletedappointment.delete()
+   return redirect('/show')
+
+
+
 def contact(request):
 
     if request.method == "POST":
@@ -49,7 +60,7 @@ def appointment(request):
             message = request.POST['message'],
         )
         myappointment.save()
-        return redirect('/appointment')
+        return redirect('/show')
 
     else:
         return render(request,'appointment.html')
